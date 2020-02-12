@@ -1,0 +1,47 @@
+#@data/values
+---
+system_domain: ${SYS_DOMAIN}
+app_domains:
+#@overlay/append
+- ${APPS_DOMAIN}
+
+cf_admin_password: ${PASSWORD}
+
+cf_blobstore:
+  secret_key: ${PASSWORD}
+
+cf_db:
+  admin_password: ${PASSWORD}
+
+#! this is all you have to configure if you are opting into the included database deployment
+capi:
+  database:
+    password: ${PASSWORD}
+
+#! All of the certs below should have KeyUsage that includes server and client authentication.
+system_certificate:
+  #! This certificates and keys are base64 encoded and should be valid for *.system.cf.example.com
+  crt: &crt ${WILD_SYS_CRT}
+  key: &key ${WILD_SYS_KEY}
+  ca: ${CA_CRT}
+
+uaa:
+  database:
+    password: ${PASSWORD}
+  admin_client_secret: ${PASSWORD}
+  certificate:
+    #! This certificate should be valid for uaa.cf-system.svc.cluster.local
+    crt: *crt
+    key: *key
+
+doppler:
+  tls:
+    #! This certificate should be valid for doppler.cf-system.svc.cluster.local
+    crt: *crt
+    key: *key
+
+eirini:
+  tls:
+    #! This certificate should be valid for eirini.cf-system.svc.cluster.local
+    crt: *crt
+    key: *key
