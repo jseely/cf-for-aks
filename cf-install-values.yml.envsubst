@@ -21,8 +21,8 @@ capi:
 #! All of the certs below should have KeyUsage that includes server and client authentication.
 system_certificate:
   #! This certificates and keys are base64 encoded and should be valid for *.system.cf.example.com
-  crt: &crt ${WILD_SYS_CRT}
-  key: &key ${WILD_SYS_KEY}
+  crt: &crt ${CERTS_sys}
+  key: &key ${KEYS_sys}
   ca: ${CA_CRT}
 
 uaa:
@@ -45,3 +45,23 @@ eirini:
     #! This certificate should be valid for eirini.cf-system.svc.cluster.local
     crt: *crt
     key: *key
+
+log_cache_ca:
+  crt: ${CA_CRT}
+  key: ${CA_KEY}
+
+log_cache:
+  crt: ${CERTS_log_cache}
+  key: ${KEYS_log_cache}
+
+log_cache_metrics:
+  crt: ${CERTS_log_cache_metrics}
+  key: ${KEYS_log_cache_metrics}
+
+log_cache_gateway:
+  crt: ${CERTS_log_cache_gateway}
+  key: ${KEYS_log_cache_gateway}
+
+log_cache_syslog:
+  crt: ${CERTS_log_cache_syslog}
+  key: ${KEYS_log_cache_syslog}
