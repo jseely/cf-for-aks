@@ -27,12 +27,15 @@ create_cert ()
 }
 
 create_cert "sys" "/CN=*.${SYS_DOMAIN}"
+create_cert "uaa" "/CN=uaa.cf-system.svc.cluster.local"
+create_cert "doppler" "/CN=doppler.cf-system.svc.cluster.local"
+create_cert "eirini" "/CN=eirini.cf-system.svc.cluster.local"
 create_cert "log_cache" "/CN=log-cache"
 create_cert "log_cache_syslog" "/CN=log-cache-syslog"
 create_cert "log_cache_gateway" "/CN=log-cache-gateway"
 create_cert "log_cache_metrics" "/CN=log-cache-metrics"
 
-export PASSWORD=$(openssl rand -base64 18)
+export PASSWORD=$(openssl rand -base64 29 | tr -d "=+/" | cut -c1-25)
 export CA_CRT=$(cat ca.crt | base64)
 export CA_KEY=$(cat ca.key | base64)
 

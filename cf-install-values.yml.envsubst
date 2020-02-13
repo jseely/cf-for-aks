@@ -31,20 +31,20 @@ uaa:
   admin_client_secret: ${PASSWORD}
   certificate:
     #! This certificate should be valid for uaa.cf-system.svc.cluster.local
-    crt: *crt
-    key: *key
+    crt: ${CERTS_uaa}
+    key: ${KEYS_uaa}
 
 doppler:
   tls:
     #! This certificate should be valid for doppler.cf-system.svc.cluster.local
-    crt: *crt
-    key: *key
+    crt: ${CERTS_doppler}
+    key: ${KEYS_doppler}
 
 eirini:
   tls:
     #! This certificate should be valid for eirini.cf-system.svc.cluster.local
-    crt: *crt
-    key: *key
+    crt: ${CERTS_eirini}
+    key: ${KEYS_eirini}
 
 log_cache_ca:
   crt: ${CA_CRT}
