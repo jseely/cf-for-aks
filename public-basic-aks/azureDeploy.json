@@ -1,0 +1,60 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "servicePrincipalClientId": {
+      "metadata": {
+        "description": "Client ID (used by cloudprovider)"
+      },
+      "type": "securestring"
+    },
+    "servicePrincipalClientSecret": {
+      "metadata": {
+        "description": "The Service Principal Client Secret."
+      },
+      "type": "securestring"
+    }
+  },
+  "variables": {
+    "kubernetesVersion": "1.15.7",
+    "clusterName": "[concat(resourceGroup().name, '-cluster')]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2020-01-01",
+      "type": "Microsoft.ContainerService/managedClusters",
+      "location": "[resourceGroup().location]",
+      "name": "[variables('clusterName')]",
+      "properties": {
+        "addonProfiles": {
+          "httpApplicationRouting": {
+            "enabled": false
+          }
+        },
+        "agentPoolProfiles": [
+          {
+            "count": 3,
+            "maxPods": 110,
+            "name": "agentpool",
+            "osDiskSizeGB": 100,
+            "osType": "Linux",
+            "type": "VirtualMachineScaleSets",
+            "vmSize": "Standard_DS2_v2"
+          }
+        ],
+        "dnsPrefix": "[concat(variables('clusterName'), '-dns')]",
+        "enableRBAC": true,
+        "kubernetesVersion": "[variables('kubernetesVersion')]",
+        "loadBalancerSku": "Standard",
+        "networkPlugin": "kubenet",
+        "outboundType": "loadBalancer",
+        "podCidr": "10.244.0.0/16",
+        "serviceCidr": "10.0.0.0/16",
+        "servicePrincipalProfile": {
+          "clientId": "[parameters('servicePrincipalClientId')]",
+          "Secret": "[parameters('servicePrincipalClientSecret')]"
+        }
+      }
+    }
+  ]
+}
